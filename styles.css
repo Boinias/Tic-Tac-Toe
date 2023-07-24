@@ -32,7 +32,7 @@ body {
     align-items: center;
     }
 
-#bottom {
+#newGame {
     margin-top: 40px;
     display: flex;
     justify-content: center;
@@ -71,6 +71,7 @@ body {
     transform: translate(-50%, -50%);
     z-index: 2;
     border-radius: 10px;
+    opacity: 90%;
   }
 
   #popUp #topSection {
@@ -108,6 +109,14 @@ body {
     display: block;
   }
   #popUp #stage2 {
+    display: none;
+  }
+
+  #popUp #stage3 {
+    display: none;
+  }
+
+  #popUp #stage4 {
     display: none;
   }
 

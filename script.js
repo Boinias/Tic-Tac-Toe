@@ -1,3 +1,44 @@
+
+let player1
+let player2
+let player1Score = 0
+let player2Score = 0
+let player1ScoreTally = document.getElementById('player1Score')
+let player2ScoreTally = document.getElementById('player2Score')
+let playerTurnCounter = 0
+let popUp = document.getElementById('popUp')
+let dimBg = document.getElementById("dimBg")
+let squares = document.getElementById('squares')
+let whosGo = document.getElementById('whosGo')
+let roundWinner = document.getElementById('roundWinner')
+let winner = document.getElementById('winner')
+let nextRoundBtn = document.getElementById('nextRoundBtn')
+let restartBtn = document.querySelectorAll('.restart')
+let title = document.getElementById('title')
+let nameGame = document.getElementById('startGame')
+
+
+
+restartBtn.forEach(function(restartBtn) {
+    restartBtn.addEventListener('click', () => {
+    gamePlay.restart()
+    nameGame.style.display = 'block';
+})});
+
+nextRoundBtn.addEventListener('click', () => {
+    for (let i = 0; i < 9;i++) {
+        let square = document.getElementById(`${i}`)
+        gameBoard.board[i] = '';
+        square.textContent = '';
+    }
+    whosGo.textContent = `${player1.name}'s turn`;
+    popUp.style.display = 'none';
+    dimBg.style.display = 'none';
+});
+
+
+
+
 const gameBoard = (function () {
  let board = ["", "", "", "", "", "", "", "", ""]
 
@@ -28,11 +69,49 @@ const gameBoard = (function () {
             let winningPattern = winningPatterns[i]
             const [a, b, c] = winningPattern
             if (board[a] === `${player1.marker}` && board[b] === `${player1.marker}` && board[c] === `${player1.marker}`) {
+                player1.score++
+                player1ScoreTally.textContent = player1.score.toString()
+                if (player1.score < 3) {
+                    stage2.style.display = 'none'
+                    stage3.style.display = 'block'
+                    popUp.style.display = 'block'
+                    dimBg.style.display = "flex";
+                    roundWinner.textContent = `${player1.name} wins`
+                }
+                else if (player1.score === 3) {
+                    gamePlay.gameOver ()
+                    stage3.style.display = 'none'
+                    stage4.style.display = 'block'
+                    popUp.style.display = 'block'
+                    dimBg.style.display = "flex";
+                    winner.textContent = `${player1.name} is the winner!`
+                }
                 console.log("p1 wins")
+                
             } else if (board[a] === `${player2.marker}` && board[b] === `${player2.marker}` && board[c] === `${player2.marker}`) {
+                player2.score++
+                player2ScoreTally.textContent = player2.score.toString()
+                if (player2.score < 3) {
+                    stage2.style.display = 'none'
+                    stage3.style.display = 'block'
+                    popUp.style.display = 'block'
+                    dimBg.style.display = "flex";
+                    roundWinner.textContent = `${player2.name} wins this round`
+                } else if(player2.score === 3) {
+                    gamePlay.gameOver ()
+                    stage3.style.display = 'none'
+                    stage4.style.display = 'block'
+                    popUp.style.display = 'block'
+                    dimBg.style.display = "flex";
+                    winner.textContent = `${player2.name} is the winner!`;
+                }
                 console.log("p2 wins")
             } else if (board.every((square) => square !== '')) {
-                console.log("draw")
+                stage2.style.display = 'none'
+                stage3.style.display = 'block'
+                popUp.style.display = 'block'
+                dimBg.style.display = "flex";
+                roundWinner.textContent = 'draw';
             }
     }}
 
@@ -44,17 +123,11 @@ const gameBoard = (function () {
  }
 }) ();
 
-let player1
-let player2
-let player1Score = 0
-let player2Score = 0
-let playerTurnCounter = 0
+
 
 
 const gamePlay = (function () {
     document.getElementById('startGame').addEventListener('click', () => {
-        let popUp = document.getElementById("popUp")
-        let dimBg = document.getElementById("dimBg")
         popUp.style.display = "block";
         dimBg.style.display = "flex";
     })
@@ -81,16 +154,12 @@ const gamePlay = (function () {
         stage1.style.display = 'none'
         stage2.style.display = 'block'
         console.log(player1)
+        title.textContent = `${player1.name} choose your marker!`
 
 })
 
 
     //Assigning X/O to player1/player2
-    let popUp = document.getElementById('popUp')
-    let dimBg = document.getElementById("dimBg")
-    let squares = document.getElementById('squares')
-    let whosGo = document.getElementById('whosGo')
-
     let x = document.getElementById('x');
     x.addEventListener('click', () => {
         playerTurnCounter = 2
@@ -99,7 +168,7 @@ const gamePlay = (function () {
         dimBg.style.display = "none";
         player1.marker = 'x'
         player2.marker = 'o'
-        whosGo.textContent = `${player1.name}'s turn`;
+        newGame.style.display = "none";
     })
 
     let o = document.getElementById('o');
@@ -110,7 +179,7 @@ const gamePlay = (function () {
         dimBg.style.display = "none";
         player1.marker = 'o'
         player2.marker = 'x'
-        whosGo.textContent = `${player1.name}'s turn`;
+        newGame.style.display = "none";
     })
 
     function updateMarking (e, marking) {
@@ -155,13 +224,47 @@ const gamePlay = (function () {
 
 
       //Display menu once game is complete
-      function gameOver () {
+
+      function restart () {
         for (let i = 0; i < 9;i++) {
             let square = document.getElementById(`${i}`)
             gameBoard.board[i] = '';
             square.textContent = '';
+        }
             whosGo.textContent = '';
             squares.style.display = 'none';
+            popUp.style.display = "none";
+            dimBg.style.display = "none";
+            stage3.style.display = "none";
+            stage4.style.display = "none";
+            stage1.style.display = "block";
+            nameGame.style.display = 'block';
+            player1Score = 0;
+            player2Score = 0;
+            player1ScoreTally = '';
+            player2ScoreTally = '';
+            player1.name = ''
+            player2.name = ''
+            player1.marker = ''
+            player2.marker = ''
+
+      }
+    
+
+      function gameOver () {
+        restart()
       }
 
-}}) ();
+      return {
+        gameOver,
+        restart
+      }
+
+}) ();
+
+
+
+// to do list
+// dimBg on click reset and esc popUp
+// form validation so ppl have to input at least one letter and not a number
+// make heading htat tells users it's first to three
