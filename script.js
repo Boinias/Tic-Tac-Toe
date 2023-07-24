@@ -13,10 +13,34 @@ const gameBoard = (function () {
         }
     }
  }
+    const winningPatterns = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8],
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8],
+        [0, 4, 8],
+        [2, 4, 6]];
+
+    function winner () {
+        for (let i = 0; i < 8; i++) {
+            let winningPattern = winningPatterns[i]
+            const [a, b, c] = winningPattern
+            if (board[a] === 'x' && board[b] === 'x' && board[c] === 'x') {
+                console.log("x wins")
+            } else if (board[a] === 'o' && board[b] === 'o' && board[c] === 'o') {
+                console.log("o wins")
+            } else if (board.every((square) => square !== '')) {
+                console.log("draw")
+            }
+    }}
+
 
  return {
     board,
-    displayMarkers
+    displayMarkers,
+    winner
  }
 }) ();
 
@@ -78,30 +102,42 @@ const gamePlay = (function () {
         whosGo.textContent = `${player1.name}'s turn`;
     })
 
-    let eachSquare = document.getElementsByClassName('square')
-    for (i=0; i<9; i++) {
-        eachSquare[i].addEventListener('click', (e) => {
-            if (whosGo.textContent == 'x' || whosGo.textContent == 'o') {
-                null
-            } else if (playerTurnCounter % 2 === 0) {
-                whosGo.textContent = `${player2.name}'s turn`;
-                if (e.target.textContent = '') {
-                    e.target.textContent = 'x'
-                } else if (e.target.textContent = 'x') {
-                    e.target.textContent = 'x'
-                } else if (e.target.textContent = 'o') {
-
-                }
-                gameBoard.board[e.target.id] = 'x';
-                console.log(gameBoard)
-            } else if (playerTurnCounter % 2 === 1) {
-                whosGo.textContent = `${player2.name}'s turn`;
-                e.target.textContent = 'o';
-                gameBoard.board[e.target.id] = 'o';
-                console.log(gameBoard)
-                playerTurnCounter++
-            }
-        })
+    function updateMarking (e, marking) {
+        e.target.textContent = marking;
+        gameBoard.board[e.target.id] = marking;
+        gameBoard.winner()
+        playerTurnCounter++;
     }
+
+    function cannotPlaceMarker (e) {
+        e.target.style.backgroundColor = 'red';
+        setTimeout(function() {
+          e.target.style.backgroundColor = 'antiquewhite';
+        }, 1000);
+    }
+
+    let eachSquare = document.getElementsByClassName('square')
+    for (let i = 0; i < 9; i++) {
+        eachSquare[i].addEventListener('click', (e) => {
+          if (playerTurnCounter % 2 === 0) {
+            if (e.target.textContent === '') {
+              updateMarking(e, 'x')
+              whosGo.textContent = `${player2.name}'s turn`;
+            } else if (e.target.textContent === 'x' || e.target.textContent === 'o') {
+                cannotPlaceMarker (e)
+            }
+
+          } else if (playerTurnCounter % 2 === 1) {
+            if (e.target.textContent === '') {
+                updateMarking(e, 'o')
+              whosGo.textContent = `${player1.name}'s turn`;
+            } else if (e.target.textContent === 'x' || e.target.textContent === 'o') {
+                cannotPlaceMarker (e)
+            }
+          }
+          console.log(gameBoard);
+        });
+      }
+    ;
 
 }) ();
