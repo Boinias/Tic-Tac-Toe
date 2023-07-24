@@ -38,7 +38,13 @@ nextRoundBtn.addEventListener('click', () => {
 });
 
 
-
+function PlayerFactory (name, score, marker) {
+    return {
+        name: name,
+        score: score,
+        marker: marker
+    }
+}
 
 const gameBoard = (function () {
  let board = ["", "", "", "", "", "", "", "", ""]
@@ -129,18 +135,12 @@ const gameBoard = (function () {
 
 
 const gamePlay = (function () {
+
+    
     newGame.addEventListener('click', () => {
         popUp.style.display = "block";
         dimBg.style.display = "flex";
     })
-
-    function PlayerFactory (name, score, marker) {
-        return {
-            name: name,
-            score: score,
-            marker: marker
-        }
-    }
 
     //Player names form submission
     const form = document.querySelector("form")
@@ -159,6 +159,7 @@ const gamePlay = (function () {
         title.textContent = `${player1.name} choose your marker!`
 
 })
+
 
 
     //Assigning X/O to player1/player2
@@ -190,6 +191,8 @@ const gamePlay = (function () {
         e.target.textContent = marking;
         gameBoard.board[e.target.id] = marking;
         playerTurnCounter++;
+        currentPlayerName = (playerTurnCounter % 2 === 0) ? player2.name : player1.name;
+        whosGo.textContent = `${currentPlayerName}'s turn`;
     }
 
     function cannotPlaceMarker (e) {
