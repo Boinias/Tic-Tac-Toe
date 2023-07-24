@@ -16,14 +16,14 @@ let winner = document.getElementById('winner')
 let nextRoundBtn = document.getElementById('nextRoundBtn')
 let restartBtn = document.querySelectorAll('.restart')
 let title = document.getElementById('title')
-let nameGame = document.getElementById('startGame')
+let newGame = document.getElementById('startGame')
 
 
 
 restartBtn.forEach(function(restartBtn) {
     restartBtn.addEventListener('click', () => {
     gamePlay.restart()
-    nameGame.style.display = 'block';
+    newGame.style.display = 'block';
 })});
 
 nextRoundBtn.addEventListener('click', () => {
@@ -65,7 +65,7 @@ const gameBoard = (function () {
         [0, 4, 8],
         [2, 4, 6]];
 
-    function winner () {
+    function matchWinner () {
         for (let i = 0; i < 8; i++) {
             let winningPattern = winningPatterns[i]
             const [a, b, c] = winningPattern
@@ -81,12 +81,12 @@ const gameBoard = (function () {
                     roundWinner.textContent = `${player1.name} wins`
                 }
                 else if (player1.score === 3) {
+                    winner.textContent = `${player1.name} is the winner!`
                     gamePlay.gameOver ()
                     stage3.style.display = 'none'
                     stage4.style.display = 'block'
                     popUp.style.display = 'block'
                     dimBg.style.display = "flex";
-                    winner.textContent = `${player1.name} is the winner!`
                 }
                 console.log("p1 wins")
                 
@@ -101,15 +101,14 @@ const gameBoard = (function () {
                     dimBg.style.display = "flex";
                     roundWinner.textContent = `${player2.name} wins this round`
                 } else if(player2.score === 3) {
+                    winner.textContent = `${player2.name} is the winner!`;
                     gamePlay.gameOver ()
-                    stage3.style.display = 'none'
-                    stage4.style.display = 'block'
                     popUp.style.display = 'block'
                     dimBg.style.display = "flex";
-                    winner.textContent = `${player2.name} is the winner!`;
                 }
                 console.log("p2 wins")
             } else if (board.every((square) => square !== '')) {
+                playerTurnCounter = player1Marker
                 stage2.style.display = 'none'
                 stage3.style.display = 'block'
                 popUp.style.display = 'block'
@@ -122,7 +121,7 @@ const gameBoard = (function () {
  return {
     board,
     displayMarkers,
-    winner
+    matchWinner
  }
 }) ();
 
@@ -130,7 +129,7 @@ const gameBoard = (function () {
 
 
 const gamePlay = (function () {
-    document.getElementById('startGame').addEventListener('click', () => {
+    newGame.addEventListener('click', () => {
         popUp.style.display = "block";
         dimBg.style.display = "flex";
     })
@@ -208,7 +207,7 @@ const gamePlay = (function () {
           if (playerTurnCounter % 2 === 0) {
             if (e.target.textContent === '') {
               updateMarking(e, 'x')
-              gameBoard.winner()
+              gameBoard.matchWinner()
               whosGo.textContent = `${player2.name}'s turn`;
             } else if (e.target.textContent === 'x' || e.target.textContent === 'o') {
                 cannotPlaceMarker (e)
@@ -217,7 +216,7 @@ const gamePlay = (function () {
           } else if (playerTurnCounter % 2 === 1) {
             if (e.target.textContent === '') {
                 updateMarking(e, 'o')
-                gameBoard.winner()
+                gameBoard.matchWinner()
               whosGo.textContent = `${player1.name}'s turn`;
             } else if (e.target.textContent === 'x' || e.target.textContent === 'o') {
                 cannotPlaceMarker (e)
@@ -243,18 +242,38 @@ const gamePlay = (function () {
             stage3.style.display = "none";
             stage4.style.display = "none";
             stage1.style.display = "block";
-            nameGame.style.display = 'block';
+            newGame.style.display = 'block';
             player1Score = 0;
             player2Score = 0;
             player1ScoreTally.textContent = '';
             player2ScoreTally.textContent = '';
             player1.name = ''
             player2.name = ''
+            player1Marker = ''
       }
     
 
       function gameOver () {
-        restart()
+        for (let i = 0; i < 9;i++) {
+            let square = document.getElementById(`${i}`)
+            gameBoard.board[i] = '';
+            square.textContent = '';
+        }
+            whosGo.textContent = '';
+            squares.style.display = 'none';
+            popUp.style.display = "block";
+            dimBg.style.display = "block";
+            stage1.style.display = "none";
+            stage2.style.display = "none";
+            stage3.style.display = "none";
+            stage4.style.display = "block";
+            player1Score = 0;
+            player2Score = 0;
+            player1ScoreTally.textContent = '';
+            player2ScoreTally.textContent = '';
+            player1.name = ''
+            player2.name = ''
+            player1Marker = ''
       }
 
       return {
