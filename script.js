@@ -6,6 +6,7 @@ let player2Score = 0
 let player1ScoreTally = document.getElementById('player1Score')
 let player2ScoreTally = document.getElementById('player2Score')
 let playerTurnCounter = 0
+let player1Marker = 0
 let popUp = document.getElementById('popUp')
 let dimBg = document.getElementById("dimBg")
 let squares = document.getElementById('squares')
@@ -70,6 +71,7 @@ const gameBoard = (function () {
             const [a, b, c] = winningPattern
             if (board[a] === `${player1.marker}` && board[b] === `${player1.marker}` && board[c] === `${player1.marker}`) {
                 player1.score++
+                playerTurnCounter = player1Marker
                 player1ScoreTally.textContent = player1.score.toString()
                 if (player1.score < 3) {
                     stage2.style.display = 'none'
@@ -90,6 +92,7 @@ const gameBoard = (function () {
                 
             } else if (board[a] === `${player2.marker}` && board[b] === `${player2.marker}` && board[c] === `${player2.marker}`) {
                 player2.score++
+                playerTurnCounter = player1Marker
                 player2ScoreTally.textContent = player2.score.toString()
                 if (player2.score < 3) {
                     stage2.style.display = 'none'
@@ -162,6 +165,7 @@ const gamePlay = (function () {
     //Assigning X/O to player1/player2
     let x = document.getElementById('x');
     x.addEventListener('click', () => {
+        player1Marker = 2
         playerTurnCounter = 2
         popUp.style.display = 'none'
         squares.style.display = 'grid'
@@ -173,6 +177,7 @@ const gamePlay = (function () {
 
     let o = document.getElementById('o');
     o.addEventListener('click', () => {
+        player1Marker = 1
         playerTurnCounter = 1
         popUp.style.display = 'none'
         squares.style.display = 'grid'
@@ -241,13 +246,10 @@ const gamePlay = (function () {
             nameGame.style.display = 'block';
             player1Score = 0;
             player2Score = 0;
-            player1ScoreTally = '';
-            player2ScoreTally = '';
+            player1ScoreTally.textContent = '';
+            player2ScoreTally.textContent = '';
             player1.name = ''
             player2.name = ''
-            player1.marker = ''
-            player2.marker = ''
-
       }
     
 
