@@ -27,10 +27,10 @@ const gameBoard = (function () {
         for (let i = 0; i < 8; i++) {
             let winningPattern = winningPatterns[i]
             const [a, b, c] = winningPattern
-            if (board[a] === 'x' && board[b] === 'x' && board[c] === 'x') {
-                console.log("x wins")
-            } else if (board[a] === 'o' && board[b] === 'o' && board[c] === 'o') {
-                console.log("o wins")
+            if (board[a] === `${player1.marker}` && board[b] === `${player1.marker}` && board[c] === `${player1.marker}`) {
+                console.log("p1 wins")
+            } else if (board[a] === `${player2.marker}` && board[b] === `${player2.marker}` && board[c] === `${player2.marker}`) {
+                console.log("p2 wins")
             } else if (board.every((square) => square !== '')) {
                 console.log("draw")
             }
@@ -46,7 +46,10 @@ const gameBoard = (function () {
 
 let player1
 let player2
+let player1Score = 0
+let player2Score = 0
 let playerTurnCounter = 0
+
 
 const gamePlay = (function () {
     document.getElementById('startGame').addEventListener('click', () => {
@@ -56,13 +59,15 @@ const gamePlay = (function () {
         dimBg.style.display = "flex";
     })
 
-    function PlayerFactory (name, score) {
+    function PlayerFactory (name, score, marker) {
         return {
             name: name,
-            score: score
+            score: score,
+            marker: marker
         }
     }
 
+    //Player names form submission
     const form = document.querySelector("form")
     form.addEventListener('submit', (e) => {
         e.preventDefault()
@@ -79,6 +84,8 @@ const gamePlay = (function () {
 
 })
 
+
+    //Assigning X/O to player1/player2
     let popUp = document.getElementById('popUp')
     let dimBg = document.getElementById("dimBg")
     let squares = document.getElementById('squares')
@@ -90,6 +97,8 @@ const gamePlay = (function () {
         popUp.style.display = 'none'
         squares.style.display = 'grid'
         dimBg.style.display = "none";
+        player1.marker = 'x'
+        player2.marker = 'o'
         whosGo.textContent = `${player1.name}'s turn`;
     })
 
@@ -99,13 +108,14 @@ const gamePlay = (function () {
         popUp.style.display = 'none'
         squares.style.display = 'grid'
         dimBg.style.display = "none";
+        player1.marker = 'o'
+        player2.marker = 'x'
         whosGo.textContent = `${player1.name}'s turn`;
     })
 
     function updateMarking (e, marking) {
         e.target.textContent = marking;
         gameBoard.board[e.target.id] = marking;
-        gameBoard.winner()
         playerTurnCounter++;
     }
 
@@ -113,15 +123,18 @@ const gamePlay = (function () {
         e.target.style.backgroundColor = 'red';
         setTimeout(function() {
           e.target.style.backgroundColor = 'antiquewhite';
-        }, 1000);
+        }, 100);
     }
 
+
+    //logic to place markers down on each square and check for a winner each time
     let eachSquare = document.getElementsByClassName('square')
     for (let i = 0; i < 9; i++) {
         eachSquare[i].addEventListener('click', (e) => {
           if (playerTurnCounter % 2 === 0) {
             if (e.target.textContent === '') {
               updateMarking(e, 'x')
+              gameBoard.winner()
               whosGo.textContent = `${player2.name}'s turn`;
             } else if (e.target.textContent === 'x' || e.target.textContent === 'o') {
                 cannotPlaceMarker (e)
@@ -130,6 +143,7 @@ const gamePlay = (function () {
           } else if (playerTurnCounter % 2 === 1) {
             if (e.target.textContent === '') {
                 updateMarking(e, 'o')
+                gameBoard.winner()
               whosGo.textContent = `${player1.name}'s turn`;
             } else if (e.target.textContent === 'x' || e.target.textContent === 'o') {
                 cannotPlaceMarker (e)
@@ -137,7 +151,17 @@ const gamePlay = (function () {
           }
           console.log(gameBoard);
         });
-      }
-    ;
+      };
 
-}) ();
+
+      //Display menu once game is complete
+      function gameOver () {
+        for (let i = 0; i < 9;i++) {
+            let square = document.getElementById(`${i}`)
+            gameBoard.board[i] = '';
+            square.textContent = '';
+            whosGo.textContent = '';
+            squares.style.display = 'none';
+      }
+
+}}) ();
