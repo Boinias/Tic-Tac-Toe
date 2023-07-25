@@ -195,6 +195,7 @@ const gamePlay = (function () {
         whosGo.textContent = `${currentPlayerName}'s turn`;
     }
 
+
     function cannotPlaceMarker (e) {
         e.target.style.backgroundColor = 'red';
         setTimeout(function() {
@@ -207,25 +208,29 @@ const gamePlay = (function () {
     let eachSquare = document.getElementsByClassName('square')
     for (let i = 0; i < 9; i++) {
         eachSquare[i].addEventListener('click', (e) => {
-          if (playerTurnCounter % 2 === 0) {
-            if (e.target.textContent === '') {
+          if (playerTurnCounter % 2 === 0 && e.target.textContent === '') {
               updateMarking(e, 'x')
               gameBoard.matchWinner()
-              whosGo.textContent = `${player2.name}'s turn`;
-            } else if (e.target.textContent === 'x' || e.target.textContent === 'o') {
-                cannotPlaceMarker (e)
+              if (player1Marker % 2 === 0) {
+                whosGo.textContent = `${player2.name}'s turn`;
+            } else if (player1Marker % 2 !== 0) {
+                whosGo.textContent = `${player1.name}'s turn`;
             }
+            
 
-          } else if (playerTurnCounter % 2 === 1) {
-            if (e.target.textContent === '') {
+            } else if (playerTurnCounter % 2 === 1 && e.target.textContent === '') {
                 updateMarking(e, 'o')
                 gameBoard.matchWinner()
-              whosGo.textContent = `${player1.name}'s turn`;
+                if (player1Marker % 2 === 1) {
+                    whosGo.textContent = `${player2.name}'s turn`;
+                } else if (player1Marker % 2 !== 1) {
+                    whosGo.textContent = `${player1.name}'s turn`;
+                }
             } else if (e.target.textContent === 'x' || e.target.textContent === 'o') {
                 cannotPlaceMarker (e)
-            }
           }
           console.log(gameBoard);
+          console.log(player1Marker)
         });
       };
 
