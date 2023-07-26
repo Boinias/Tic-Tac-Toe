@@ -210,22 +210,23 @@ const gamePlay = (function () {
         eachSquare[i].addEventListener('click', (e) => {
           if (playerTurnCounter % 2 === 0 && e.target.textContent === '') {
               updateMarking(e, 'x')
-              gameBoard.matchWinner()
+              
               if (player1Marker % 2 === 0) {
                 whosGo.textContent = `${player2.name}'s turn`;
             } else if (player1Marker % 2 !== 0) {
                 whosGo.textContent = `${player1.name}'s turn`;
-            }
+            } gameBoard.matchWinner()
             
 
             } else if (playerTurnCounter % 2 === 1 && e.target.textContent === '') {
                 updateMarking(e, 'o')
-                gameBoard.matchWinner()
+                
                 if (player1Marker % 2 === 1) {
                     whosGo.textContent = `${player2.name}'s turn`;
                 } else if (player1Marker % 2 !== 1) {
                     whosGo.textContent = `${player1.name}'s turn`;
-                }
+                } gameBoard.matchWinner()
+
             } else if (e.target.textContent === 'x' || e.target.textContent === 'o') {
                 cannotPlaceMarker (e)
           }
@@ -236,7 +237,6 @@ const gamePlay = (function () {
 
 
       //Display menu once game is complete
-
       function restart () {
         for (let i = 0; i < 9;i++) {
             let square = document.getElementById(`${i}`)
