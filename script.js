@@ -17,6 +17,7 @@ let nextRoundBtn = document.getElementById('nextRoundBtn')
 let restartBtn = document.querySelectorAll('.restart')
 let title = document.getElementById('title')
 let newGame = document.getElementById('startGame')
+let scores = document.getElementById('scores')
 
 
 
@@ -140,6 +141,7 @@ const gamePlay = (function () {
     newGame.addEventListener('click', () => {
         popUp.style.display = "block";
         dimBg.style.display = "flex";
+        newGame.style.display = 'none'
     })
 
     //Player names form submission
@@ -170,9 +172,12 @@ const gamePlay = (function () {
         popUp.style.display = 'none'
         squares.style.display = 'grid'
         dimBg.style.display = "none";
+        scores.style.display = 'flex';
         player1.marker = 'x'
         player2.marker = 'o'
         newGame.style.display = "none";
+        whosGo.style.display = 'flex'
+        whosGo.textContent = `${player1.name}'s turn`;
     })
 
     let o = document.getElementById('o');
@@ -182,9 +187,12 @@ const gamePlay = (function () {
         popUp.style.display = 'none'
         squares.style.display = 'grid'
         dimBg.style.display = "none";
+        scores.style.display = 'flex';
         player1.marker = 'o'
         player2.marker = 'x'
         newGame.style.display = "none";
+        whosGo.style.display = 'flex'
+        whosGo.textContent = `${player1.name}'s turn`;
     })
 
     function updateMarking (e, marking) {
@@ -258,6 +266,7 @@ const gamePlay = (function () {
             player1.name = ''
             player2.name = ''
             player1Marker = ''
+
       }
     
 
