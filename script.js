@@ -4,7 +4,9 @@ let player2
 let player1Score = 0
 let player2Score = 0
 let player1ScoreTally = document.getElementById('player1Score')
+player1ScoreTally.textContent = '0'
 let player2ScoreTally = document.getElementById('player2Score')
+player2ScoreTally.textContent = '0'
 let playerTurnCounter = 0
 let player1Marker = 0
 let popUp = document.getElementById('popUp')
@@ -18,6 +20,11 @@ let restartBtn = document.querySelectorAll('.restart')
 let title = document.getElementById('title')
 let newGame = document.getElementById('startGame')
 let scores = document.getElementById('scores')
+let bottom = document.getElementById('bottom')
+let p1name = document.getElementById('p1name')
+let p2name = document.getElementById('p2name')
+let stage3 = document.getElementById('stage3')
+let stage4 = document.getElementById('stage4')
 
 
 
@@ -81,15 +88,15 @@ const gameBoard = (function () {
                 playerTurnCounter = player1Marker
                 player1ScoreTally.textContent = player1.score.toString()
                 if (player1.score < 3) {
-                    stage2.style.display = 'none'
-                    stage3.style.display = 'block'
                     popUp.style.display = 'block'
                     dimBg.style.display = "flex";
+                    stage2.style.display = 'none'
+                    stage3.style.display = 'flex'
                     roundWinner.textContent = `${player1.name} wins`
                 }
                 else if (player1.score === 3) {
                     winner.textContent = `${player1.name} is the winner!`
-                    gamePlay.gameOver ()
+                    gamePlay.gameOver()
                     stage3.style.display = 'none'
                     stage4.style.display = 'block'
                     popUp.style.display = 'block'
@@ -102,14 +109,16 @@ const gameBoard = (function () {
                 playerTurnCounter = player1Marker
                 player2ScoreTally.textContent = player2.score.toString()
                 if (player2.score < 3) {
-                    stage2.style.display = 'none'
-                    stage3.style.display = 'block'
                     popUp.style.display = 'block'
+                    stage2.style.display = 'none'
+                    stage3.style.display = 'flex'
                     dimBg.style.display = "flex";
                     roundWinner.textContent = `${player2.name} wins this round`
                 } else if(player2.score === 3) {
                     winner.textContent = `${player2.name} is the winner!`;
-                    gamePlay.gameOver ()
+                    gamePlay.gameOver()
+                    stage3.style.display = 'none'
+                    stage4.style.display = 'block'
                     popUp.style.display = 'block'
                     dimBg.style.display = "flex";
                 }
@@ -117,7 +126,7 @@ const gameBoard = (function () {
             } else if (board.every((square) => square !== '')) {
                 playerTurnCounter = player1Marker
                 stage2.style.display = 'none'
-                stage3.style.display = 'block'
+                stage3.style.display = 'flex'
                 popUp.style.display = 'block'
                 dimBg.style.display = "flex";
                 roundWinner.textContent = 'draw';
@@ -145,23 +154,25 @@ const gamePlay = (function () {
     })
 
     //Player names form submission
-    const form = document.querySelector("form")
-    form.addEventListener('submit', (e) => {
-        e.preventDefault()
+    const form = document.querySelector("form");
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+    
+      let fullName1 = document.getElementById("fullName1").value;
+      let fullName2 = document.getElementById("fullName2").value;
+      let stage1 = document.getElementById("stage1");
+      let stage2 = document.getElementById("stage2");
+      
+      player1 = PlayerFactory(fullName1, 0);
+      player2 = PlayerFactory(fullName2, 0);
 
-        let fullName1 = document.getElementById('fullName1').value
-        let fullName2 = document.getElementById('fullName2').value
-        let stage1 = document.getElementById('stage1')
-        let stage2 = document.getElementById('stage2')
-        player1 = PlayerFactory (fullName1, 0)
-        player2 = PlayerFactory (fullName2, 0)
-        stage1.style.display = 'none'
-        stage2.style.display = 'block'
-        console.log(player1)
-        title.textContent = `${player1.name} choose your marker!`
-
-})
-
+      stage1.style.display = "none";
+      stage2.style.display = "block";
+      console.log(player1);
+      title.textContent = `${player1.name} choose your marker!`;
+      p1name.textContent = `${player1.name} dubs`;
+      p2name.textContent = `${player2.name} dubs`;
+    });
 
 
     //Assigning X/O to player1/player2
@@ -176,7 +187,7 @@ const gamePlay = (function () {
         player1.marker = 'x'
         player2.marker = 'o'
         newGame.style.display = "none";
-        whosGo.style.display = 'flex'
+        bottom.style.display = "flex";
         whosGo.textContent = `${player1.name}'s turn`;
     })
 
@@ -191,7 +202,7 @@ const gamePlay = (function () {
         player1.marker = 'o'
         player2.marker = 'x'
         newGame.style.display = "none";
-        whosGo.style.display = 'flex'
+        bottom.style.display = "flex";
         whosGo.textContent = `${player1.name}'s turn`;
     })
 
@@ -252,6 +263,7 @@ const gamePlay = (function () {
             square.textContent = '';
         }
             whosGo.textContent = '';
+            whosGo.style.display = 'none';
             squares.style.display = 'none';
             popUp.style.display = "none";
             dimBg.style.display = "none";
@@ -291,6 +303,10 @@ const gamePlay = (function () {
             player1.name = ''
             player2.name = ''
             player1Marker = ''
+            p1name.textContent = ''
+            p2name.textContent = ''
+            scores.style.display = 'none'
+
       }
 
       return {
