@@ -215,6 +215,7 @@ const gamePlay = (function () {
     }
 
 
+    
     function cannotPlaceMarker (e) {
         e.target.style.backgroundColor = 'red';
         setTimeout(function() {
