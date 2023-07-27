@@ -181,6 +181,7 @@ function handleMarkerSelection(playerMarker, player1MarkerValue, player2MarkerVa
     newGame.style.display = 'none';
     bottom.style.display = 'flex';
     whosGo.textContent = `${player1.name}'s turn`;
+    whosGo.style.display = 'flex';
 }
 
 let x = document.getElementById('x');
@@ -264,8 +265,8 @@ function restart () {
     newGame.style.display = 'block';
     player1Score = 0;
     player2Score = 0;
-    player1ScoreTally.textContent = '';
-    player2ScoreTally.textContent = '';
+    player1ScoreTally.textContent = player1Score;
+    player2ScoreTally.textContent = player1Score;
     player1.name = '';
     player2.name = '';
     player1Marker = '';
@@ -287,8 +288,8 @@ function gameOver () {
     stage4.style.display = "block";
     player1Score = 0;
     player2Score = 0;
-    player1ScoreTally.textContent = '';
-    player2ScoreTally.textContent = '';
+    player1ScoreTally.textContent = player1Score;
+    player2ScoreTally.textContent = player1Score;
     player1.name = '';
     player2.name = '';
     player1Marker = '';
