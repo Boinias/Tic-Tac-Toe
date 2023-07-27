@@ -299,7 +299,7 @@ body {
   #bottom #whosGo {
     display: flex;
     width: fit-content;
-    margin-top: 70px;
+    margin: 70px 0px;
     background-color: antiquewhite;
     border: 2px solid #333;
     padding: 10px;
@@ -356,4 +356,3 @@ body {
   
 
 
-  
