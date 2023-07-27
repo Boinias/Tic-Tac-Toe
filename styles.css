@@ -103,6 +103,7 @@ body {
     display: none;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     padding: 20px;
     width: 300px;
     height: 300px;
@@ -143,9 +144,13 @@ body {
     align-items: center;
   }
 
-  #popUp #stage1 input {
-    margin-bottom: 15px;
-    display: block;
+  #popUp #stage1 div {
+    margin: 5px;
+  }
+
+  #popUp #stage1 form div {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 400;
   }
 
   label {
@@ -153,18 +158,46 @@ body {
     font-weight: 400;
     }
 
-  input[type=submit] {
+  input[type=text] {
+    font: bold 0.6em sans-serif;
+    border: 2px solid #333;
+    border-radius: 5px;
+    background: white;
+    cursor:auto;
+  }
+
+.error-message {
+    display: none;
+    font-size: .8em;
+    font-style: italic;
+  }
+
+  #popUp #stage1 form div input[type=text]:not(:focus):not(:placeholder-shown):invalid {
+    border-color: red;
+  }
+
+  #popUp #stage1 form div input[type=text]:not(:focus):not(:placeholder-shown):invalid + .error-message {
+    display: block;
+  }
+
+  #popUp #stage1 form div input[type=text]:not(:focus):not(:placeholder-shown):valid {
+    border-color: green;
+  }
+
+  #popUp #stage1 form input[type=submit] {
     padding: 5px;
+    margin-top: 15px;
     font: bold 0.6em sans-serif;
     border: 2px solid #333;
     border-radius: 5px;
     background: none;
     cursor: pointer;
     transform: rotate(-1.5deg);
+    margin-left: 10px;
   }
   
-  input[type=submit]:hover,
-  input[type=submit]:focus {
+  #popUp #stage1 form input[type=submit]:hover,
+  #popUp #stage1 form input[type=submit]:focus {
     outline: none;
     background: #000;
     color: #fff;
@@ -175,13 +208,15 @@ body {
     display: none;
     justify-content: center;
     align-items: center;
+    margin-top: 37%;
   }
-
+  
   #popUp #stage2 #title {
     font-family: Arial, Helvetica, sans-serif;
     font-weight: 400;
+    text-align: center;
   }
-
+  
   #popUp #stage2 #bottomSection #x,
   #popUp #stage2 #bottomSection #o {
     padding: 5px;
@@ -194,13 +229,13 @@ body {
   }
 
 
-  
   #popUp #stage3 {
     display: none;
     height: fit-content;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-top: 30%;
   }
 
   #popUp #stage3 #topSection #roundWinner {
@@ -227,6 +262,30 @@ body {
 
   #popUp #stage4 {
     display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40%;
+  }
+
+  #popUp #stage4 #topSection #winner {
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 400;
+  }
+  #popUp #stage4 button {
+    padding: 5px;
+    font: bold 0.6em sans-serif;
+    border: 2px solid #333;
+    border-radius: 5px;
+    background: none;
+    cursor: pointer;
+    transform: rotate(-1.5deg);
+  }
+  #popUp #stage4 button:hover,
+  #popUp #stage4 button:focus {
+    outline: none;
+    background: #000;
+    color: #fff;
   }
 
 

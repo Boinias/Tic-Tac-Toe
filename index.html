@@ -14,11 +14,15 @@
         <form>
             <div id="player1">
                 <label for="fullName1">Player 1 Name</label>
-                <input type="text" id="fullName1">
+                <input type="text" id="fullName1" pattern="^[A-Za-z]{1,15}$" required
+                placeholder=" ">
+                <span class="error-message">*Must use 1-15 letters</span>
             </div>
             <div id="player2">
                 <label for="fullName2">Player 2 Name</label>
-                <input type="text" id="fullName2">
+                <input type="text" id="fullName2" pattern="^[A-Za-z]{1,15}$" required
+                placeholder=" ">     
+                <span class="error-message">*Must use 1-15 letters</span>   
             </div>
             <input type="submit">
         </form>
