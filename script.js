@@ -33,7 +33,7 @@ let stage4 = document.getElementById('stage4');
 
 restartBtn.forEach(function(restartBtn) {
     restartBtn.addEventListener('click', () => {
-    gamePlay.gameOver();
+    gamePlay.gameOver()
     gamePlay.restart();
     newGame.style.display = 'block';
 })});
