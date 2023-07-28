@@ -94,7 +94,7 @@ function matchWinner() {
             stage3.style.display = 'flex';
             dimBg.style.display = 'flex';
             roundWinner.textContent = `${playerName} wins this round`;
-        } else {
+        } else if (player.score === 3) {
             winner.textContent = `${playerName} is the winner!`;
             gamePlay.gameOver();
             stage3.style.display = 'none';
